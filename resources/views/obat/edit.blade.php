@@ -37,6 +37,15 @@
         <input type="number" name="harga_jual" id="harga_jual" class="form-control" value="{{ $obat->harga_jual }}">
     </div>
 
+    <div class="form-group">
+        <label for="harga_jual">Rak</label>
+        <select name="rak_id" class="form-control" id="rak_id">
+            @foreach($rakTersedia as $rak)
+                <option value="{{ $rak->id }}">{{ $rak->rak }}-{{ $rak->no_rak }}</option>
+            @endforeach
+        </select>
+    </div>
+
     <div class="modal-footer">
         <button class="btn btn-primary" type="submit">Save changes</button>
     </div>

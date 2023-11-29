@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RakController;
 use App\Http\Controllers\ObatController;
@@ -39,6 +40,11 @@ Route::controller(UserController::class)
     ->group(function(){
         Route::get('/', 'index')->name('manajemen_user.index'); //untuk create,delete edit menu di dalam menu//
     });
+    Route::get('user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('user/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::get('user/create', [UserController::class, 'create'])->name('user.create');
+    Route::post('user', [UserController::class, 'store'])->name('user.store');
+    Route::delete('/user/{id}',[UserController::class, 'destroy'])->name('user.destroy');
 
 Route::get('/manajemen_rak', [RakController::class, 'index'])->name('rak.index');
 Route::get('rak/{id}/edit', [RakController::class, 'edit'])->name('rak.edit');
@@ -63,5 +69,10 @@ Route::get('/transaksi/loadform/{total}/{diterima}', [TransaksiDetailController:
 Route::resource('/transaksi', TransaksiDetailController::class)
     ->except('create','edit','show');
 Route::delete('/rak/{id}',[RakController::class, 'destroy'])->name('rak.destroy');
+
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/laporan/data/{awal}/{akhir}', [LaporanController::class, 'data'])->name('laporan.data');
+    Route::get('/laporan/pdf/{awal}/{akhir}', [LaporanController::class, 'exportPDF'])->name('laporan.export_pdf');
+
 
 require __DIR__.'/auth.php';

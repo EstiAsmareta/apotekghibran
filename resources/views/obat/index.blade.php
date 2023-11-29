@@ -55,18 +55,19 @@
                                     <td>{{ $obat->rak->rak }} {{ $obat->rak->no_rak }}</td>
                                     <td>{{ $obat->harga_beli }}</td>
                                     <td>{{ $obat->harga_jual }}</td>
-                                    <td>{{ $obat->user->usertype}}</td>
+                                    <td>{{ $obat->user->name}}</td>
                                     <td class="d-flex align-items-center">
                                         <!-- Edit Button -->
                                         <button class="btn btn-primary edit-button me-2" type="button" data-bs-toggle="modal"
                                             data-bs-target="#exampleModalScrollable" style="margin-top: -13px;" data-id="{{ $obat->id }}">Edit</button>
 
                                         <!-- Delete Button (you can use a form for a better approach) -->
-                                        <form action="#" method="POST">
+                                        <form action="{{ route('obat.destroy', ['id' => $obat->id]) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger" style="margin-left: 5px;" style="margin-top: 10px;">Delete</button>
+                                            <button type="submit" class="btn btn-danger" style="margin-left: 5px; margin-top: 10px;">Delete</button>
                                         </form>
+
                                     </td>
                                 </tr>
                                 @endforeach
@@ -77,8 +78,8 @@
                         <div class="modal-dialog modal-dialog-scrollable" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalScrollableTitle">Modal title</h5>
-                                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <h5 class="modal-title" id="exampleModalScrollableTitle">Edit Obat</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
                                 <div class="modal-body">
                                     <div id="modal-content-placeholder">

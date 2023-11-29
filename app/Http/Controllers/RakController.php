@@ -98,9 +98,10 @@ class RakController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(rak $id)
+    public function destroy( $id)
     {
-        $id->delete();
+        $rak = rak::findOrFail($id);
+        $rak->delete();
 
         return redirect()->route('rak.index');
     }

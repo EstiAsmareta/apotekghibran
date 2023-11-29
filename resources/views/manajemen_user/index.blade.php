@@ -17,7 +17,7 @@
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <h6 class="m-0 font-weight-bold text-primary">Data User</h6>
                             <div>
-                                <button type="tambah" class="btn btn-primary">Tambah</button>
+                                <a type="tambah" class="btn btn-primary" href="{{route('user.create')}}">Tambah</a>
                             </div>
                         </div>
 
@@ -40,18 +40,61 @@
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->created_at }}</td>
-                                    <td>
-                                        <a href="" class="btn btn-primary">Edit</a>
-                                        <a href="" class="btn btn-danger">Hapus</a>
+                                    <td class="d-flex align-items-center">
+                                        <!-- Edit Button -->
+                                        <button class="btn btn-primary edit-button me-2" type="button" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModalScrollable" style="margin-top: -13px;" data-id="{{ $user->id }}">Edit</button>
+
+                                        <!-- Delete Button (you can use a form for a better approach) -->
+                                        <form action="{{ route('user.destroy', ['id' => $user->id]) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger" style="margin-left: 5px;" style="margin-top: 10px;">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                             </table>
-                          </div>
-                        </div>
-                      </div>
+                            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-scrollable" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalScrollableTitle">Edit User</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div id="modal-content-placeholder">
+                                                <!-- Konten dari tampilan "edit" akan dimuat di sini -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                 </div>
                 <!-- /.container-fluid -->
 @endsection
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        $('.edit-button').click(function() {
+            var userId = $(this).data('id');
+            $('#editModal').modal('show');
+
+            // Load the "edit" view content into the modal
+            $.get("{{ route('user.edit', ':id') }}".replace(':id', userId), function(data) {
+                // Proses data yang diterima dari server
+                $('#modal-content-placeholder').html(data);
+            });
+        });
+    });
+</script>
+<script>
+    function confirmDelete() {
+        if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
+            document.getElementById('delete-form').submit();
+        }
+    }
+</script>
+@endpush

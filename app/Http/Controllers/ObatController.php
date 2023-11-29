@@ -59,7 +59,7 @@ class ObatController extends Controller
             echo $error;
         }
     }
-    
+
 
     // Proses hanya akan dilanjutkan jika validasi berhasil
     else
@@ -103,7 +103,8 @@ class ObatController extends Controller
     public function edit($id)
     {
         $obat = obat::find($id);
-        return view('obat.edit', compact('obat'));
+        $rakTersedia = rak::all();
+        return view('obat.edit', compact('obat', 'rakTersedia'));
     }
 
     /**
@@ -117,15 +118,16 @@ class ObatController extends Controller
         }
 
         $obat->update($request->all());
-        return redirect()->route('obat.index')->with('success', 'Data obat berhasil diupdate.');//pop upnya belum tampil 
+        return redirect()->route('obat.index')->with('success', 'Data obat berhasil diupdate.');//pop upnya belum tampil
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(obat $id)
+    public function destroy($id)
     {
-        $id->delete();
+        $obat = obat::findOrFail($id);
+        $obat->delete();
 
         return redirect()->route('obat.index');
     }

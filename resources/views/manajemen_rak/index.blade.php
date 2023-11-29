@@ -44,7 +44,7 @@
                                                 data-bs-target="#exampleModalScrollable" style="margin-top: -13px;" data-id="{{ $rak->id }}">Edit</button>
 
                                             <!-- Delete Button (you can use a form for a better approach) -->
-                                            <form action="#" method="POST">
+                                            <form action="{{ route('rak.destroy', ['id' => $rak->id]) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger" style="margin-left: 5px;" style="margin-top: 10px;">Delete</button>
@@ -59,8 +59,8 @@
                         <div class="modal-dialog modal-dialog-scrollable" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalScrollableTitle">Modal title</h5>
-                                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <h5 class="modal-title" id="exampleModalScrollableTitle">Edit Rak</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
                                 <div class="modal-body">
                                     <div id="modal-content-placeholder">

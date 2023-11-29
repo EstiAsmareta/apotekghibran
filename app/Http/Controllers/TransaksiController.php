@@ -7,6 +7,7 @@ use App\Models\transaksi;
 use App\Models\transaksiDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 
 class TransaksiController extends Controller
@@ -82,27 +83,19 @@ class TransaksiController extends Controller
         $penjualan = transaksi::findOrFail($request->transaksi_id);
         $penjualan->total_harga = intval($request->total);
         $penjualan->total_item = intval($request->total_item);
-        $penjualan->bayar = intval($request->totalsl);
+        $penjualan->bayar = intval($request->total);
         $penjualan->diterima = intval($request->diterima);
         $penjualan->user_id = auth()->user()->id;
         $penjualan->update();
-        ;
+        
+        $detail = transaksiDetail::where('transaksi_id', $penjualan->id)->get();
+        foreach ($detail as $item) {
+            $produk = obat::find($item->obat_id);
+            $produk->stok -= $item->jumlah;
+            $produk->update();
+        }
 
-        // // Aktifkan query log
-        // \DB::listen(function ($query) {
-        //     var_dump($query->sql, $query->bindings);
-        // });
-        // // Lakukan operasi update
-        // $penjualan->update(); // atau cara lain penyimpanan data
-
-        // $detail = transaksiDetail::where('transaksi_id', $penjualan->id)->get();
-        // foreach ($detail as $item){
-        //     $obat = obat::find($item->obat_id);
-        //     $obat->stok -= $item->jumlah;
-        //     $obat->update();
-        // }
-
-        // return redirect()->route('obat.index');
+        return redirect()->route('transaksi.selesai');
     }
 
     /**
@@ -168,10 +161,24 @@ class TransaksiController extends Controller
         }
     }
 
-    // public function selesai()
-    // {
-    //     $setting = setting::first();
+    public function selesai()
+    {
 
-    //     return view('transaksi.selesai', compact('setting'));
-    // }
+        return view('manajemen_transaksi.selesai');
+    }
+
+    public function notaKecil()
+    {
+        $penjualan = transaksi::find(session('transaksi_id'));
+        if (! $penjualan) {
+            abort(404);
+        }
+        $detail = transaksiDetail::with('obat')
+            ->where('transaksi_id', session('transkasi_id'))
+            ->get();
+        
+		$pdf = PDF::loadView('manajemen_transaksi.nota_kecil', compact('penjualan', 'detail'));
+        $pdf->setPaper(0,0,609,440, 'potrait');
+        return view('manajemen_transaksi.nota_kecil', compact( 'penjualan', 'detail'));
+    }
 }
