@@ -8,7 +8,7 @@
 </head>
 
 <body id="page-top">
-
+    
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -21,8 +21,10 @@
 
             <!-- Main Content -->
 
+
             @include('part.navbar')
             <div id="content">
+
 
                 @yield('content')
 

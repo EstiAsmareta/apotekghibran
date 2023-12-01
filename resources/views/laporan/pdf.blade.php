@@ -41,7 +41,7 @@
                     @endforeach
                 </tr>
                 <?php
-                    $totalPenjualan += intval($row['penjualan']);
+                    $totalPenjualan += floatval(str_replace(',', '', str_replace('.', '', $row['penjualan'])));
                     $totalObat += intval($row['total_item']);
                     $totalTransaksi += intval($row['total_transaksi']);
                 ?>
@@ -50,7 +50,7 @@
         <tfoot>
                 <td></td>
                 <td>Total :</td>
-                <td>{{ $totalPenjualan }}</td>
+                <td>{{ format_uang($totalPenjualan) }}</td>
                 <td>{{ $totalObat }}</td>
                 <td>{{ $totalTransaksi }}</td>
         </tfoot>

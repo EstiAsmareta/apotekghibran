@@ -2,6 +2,36 @@
 
 @extends('layout')
 @section('content')
+                @if(session('success'))
+                <script>
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                    });
+                    Toast.fire({
+                        icon: "success",
+                        title: "{{ session('success') }}"
+                    });
+                </script>
+                @endif
+
+                @if(session('error'))
+                <script>
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                    });
+                    Toast.fire({
+                        icon: "error",
+                        title: "{{ session('error') }}"
+                    });
+                </script>
+                @endif
+
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
@@ -56,18 +86,18 @@
                                     <td>{{ $obat->harga_beli }}</td>
                                     <td>{{ $obat->harga_jual }}</td>
                                     <td>{{ $obat->user->name}}</td>
-                                    <td class="d-flex align-items-center">
+                                    <td class="d-flex align-items-right">
                                         <!-- Edit Button -->
-                                        <button class="btn btn-primary edit-button me-2" type="button" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModalScrollable" style="margin-top: -13px;" data-id="{{ $obat->id }}">Edit</button>
+                                        <button class="btn btn-primary edit-button me-2" type="button" data-bs-toggle="modal" style="margin-left: 5px; margin-top: 10px;"
+                                            data-bs-target="#exampleModalScrollable" data-id="{{ $obat->id }}">Edit</button>
 
                                         <!-- Delete Button (you can use a form for a better approach) -->
-                                        <form action="{{ route('obat.destroy', ['id' => $obat->id]) }}" method="POST">
+                                        <form id="deleteForm" action="{{ route('obat.destroy', $obat->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger" style="margin-left: 5px; margin-top: 10px;">Delete</button>
+                                            <button type="button" class="btn btn-danger" style="margin-left: 5px; margin-top: 10px;" onclick="confirmDelete('{{ $obat->nama }}', '{{ route('obat.destroy', $obat->id) }}')">Delete</button>
                                         </form>
-
+                                        {{-- <button type="button" class="btn btn-danger" onclick="confirmDelete('{{ $obat->nama_obat }}', this)">Delete</button> --}}
                                     </td>
                                 </tr>
                                 @endforeach
@@ -110,11 +140,23 @@
             });
         });
     });
-
-    function confirmDelete() {
-        if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
-            document.getElementById('delete-form').submit();
-        }
+</script>
+<script>
+    function confirmDelete(nama_obat, deleteUrl) {
+        Swal.fire({
+            title: 'Konfirmasi',
+            text: 'Apakah Anda yakin ingin menghapus ' + nama_obat + '?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, Hapus!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Proceed with form submission
+                document.getElementById('deleteForm').submit();
+            }
+        });
     }
 </script>
 @endpush

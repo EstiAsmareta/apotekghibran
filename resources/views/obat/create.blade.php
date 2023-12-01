@@ -1,34 +1,22 @@
-{{-- @extends('layout')
-@section('content')
-                <div class="container-fluid">
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Tambahkan Data</h1>
-                    <form method="POST" action="{{ route('obat.store') }}">
-                        @csrf
-
-                        <input type="text" name="id" placeholder="ID Obat">
-                        <input type="text" name="nama_obat" placeholder="Nama Obat">
-                        <input type="text" name="nama_produsen" placeholder="Nama Produsen">
-                        <input type="number" name="stok" placeholder="Stok">
-                        <input type="date" name="tgl_kadaluarsa" placeholder="Tanggal Kadaluarsa">
-                        <input type="text" name="dosis" placeholder="Dosis">
-                        <input type="number" name="harga_beli" placeholder="Harga Beli">
-                        <input type="number" name="harga_jual" placeholder="Harga Jual">
-                        <label for="rak_id">Pilih Rak:</label>
-                        <select name="rak_id" id="rak_id">
-                            @foreach($rakTersedia as $rak)
-                                <option value="{{ $rak->id }}">{{ $rak->rak }}-{{ $rak->no_rak }}</option>
-                            @endforeach
-                        </select>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </form>
-                </div>
-                <!-- /.container-fluid -->
-@endsection --}}
-
 @extends('layout')
 @section('content')
-                <div class="container-fluid">
+                    @if($errors->any())
+                    @foreach($errors->all() as $error)
+                        <script>
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: "top-end",
+                                showConfirmButton: false,
+                                timer: 3000,
+                            });
+                            Toast.fire({
+                                icon: "error",
+                                title: "{{ $error }}"
+                            });
+                        </script>
+                    @endforeach
+                    @endif
+
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Tambah Data</h1>
@@ -135,9 +123,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-
+                    </div>                
 
                 </div>
                 <!-- /.container-fluid -->

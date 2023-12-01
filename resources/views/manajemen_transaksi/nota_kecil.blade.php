@@ -73,7 +73,7 @@
     <table width="100%" style="border: 0;">
         @foreach ($detail as $item)
             <tr>
-                <td colspan="3">{{ $item->produk->nama_produk }}</td>
+                <td colspan="3">{{ $item->obat->nama_obat }}</td>
             </tr>
             <tr>
                 <td>{{ $item->jumlah }} x {{ format_uang($item->harga_jual) }}</td>
@@ -108,7 +108,7 @@
     </table>
 
     <p class="text-rigth">===================================</p>
-    <p class="text-right">-- TERIMA KASIH --</p>
+    <p class="text-center">-- TERIMA KASIH --</p>
 
     <script>
         let body = document.body;

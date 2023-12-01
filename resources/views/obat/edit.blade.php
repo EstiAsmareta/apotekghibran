@@ -47,12 +47,6 @@
     </div>
 
     <div class="modal-footer">
-        <button class="btn btn-primary" type="submit">Save changes</button>
+        <button class="btn btn-sm btn-flat btn-primary" type="submit"><i class="fa fa-save"></i> Save changes</button>
     </div>
 </form>
-{{-- pop up belum tampil --}}
-@if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif

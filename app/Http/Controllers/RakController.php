@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\rak;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator as FacadesValidator;
+use Illuminate\Support\Facades\Validator;
 
 class RakController extends Controller
 {
@@ -36,20 +35,29 @@ class RakController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'rak' => 'required|string',
-            'no_rak' => 'required|numeric',
-        ]);
+{
+    $validator = Validator::make($request->all(), [
+        'rak' => 'required|string|unique:raks,rak,NULL,id,no_rak,' . $request->input('no_rak'),
+        'no_rak' => 'required|numeric|unique:raks,no_rak,NULL,id,rak,' . $request->input('rak'),
+    ]);
 
-        $rak = new rak;
-        $rak->rak = $validatedData['rak'];
-        $rak->no_rak = $validatedData['no_rak'];
-
-        $rak->save();
-
-        return redirect()->route('rak.index')->with('success','Data Rak berhasil ditambahkan');
+    if ($validator->fails()) {
+        // Redirect back to the form with validation errors and old input
+        return redirect()->route('rak.create')
+            ->withErrors($validator)
+            ->withInput();
     }
+
+    $validatedData = $validator->validated();
+
+    $rak = new Rak;
+    $rak->rak = $validatedData['rak'];
+    $rak->no_rak = $validatedData['no_rak'];
+
+    $rak->save();
+
+    return redirect()->route('rak.index')->with('success', 'Data berhasil ditambahkan');
+}
 
     /**
      * Display the specified resource.
@@ -75,10 +83,11 @@ class RakController extends Controller
     {
         $rak = rak::find($id);
         if(!$rak){
-            return response()->json(['massage'=>'Data tidak ditemukan'], 404);
+            return redirect()->route('manajemen_rak.index')->with('error', 'Data tidak ditemukan.');
+
         }
 
-        $validator = FacadesValidator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'rak' => 'required',
             'no_rak' => 'numeric|unique:raks,no_rak,' . $id, // Memeriksa unik kecuali untuk data dengan ID yang sedang diubah
         ]);
@@ -89,10 +98,10 @@ class RakController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-
-        $rak->update($request->all());
-        return redirect()->route('rak.index')->with('success', 'Data obat berhasil diupdate.');//pop upnya belum tampil
-
+        else{
+            $rak->update($request->all());
+            return redirect()->route('rak.index')->with('success', 'Data obat berhasil diupdate.');//pop upnya belum tampil
+        }
     }
 
     /**
@@ -103,6 +112,6 @@ class RakController extends Controller
         $rak = rak::findOrFail($id);
         $rak->delete();
 
-        return redirect()->route('rak.index');
+        return redirect()->route('rak.index')->with('success', 'Data obat berhasil dihapus.');
     }
 }

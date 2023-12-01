@@ -21,6 +21,8 @@
 <link rel="stylesheet" href="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{{-- <script src="sweetalert2.min.js"></script>
+<link rel="stylesheet" href="sweetalert2.min.css"> --}}
 
 @stack('css')

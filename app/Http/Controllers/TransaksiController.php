@@ -174,11 +174,11 @@ class TransaksiController extends Controller
             abort(404);
         }
         $detail = transaksiDetail::with('obat')
-            ->where('transaksi_id', session('transkasi_id'))
+            ->where('transaksi_id', session('transaksi_id'))
             ->get();
-        
-		$pdf = PDF::loadView('manajemen_transaksi.nota_kecil', compact('penjualan', 'detail'));
-        $pdf->setPaper(0,0,609,440, 'potrait');
-        return view('manajemen_transaksi.nota_kecil', compact( 'penjualan', 'detail'));
+        // dd($detail);
+            return view('manajemen_transaksi.nota_kecil', compact( 'penjualan', 'detail'));
+        }
     }
-}
+    // $pdf = PDF::loadView('manajemen_transaksi.nota_kecil', compact('penjualan', 'detail'));
+    // $pdf->setPaper(0,0,609,440, 'potrait');

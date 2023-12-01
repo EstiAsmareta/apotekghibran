@@ -1,24 +1,23 @@
-{{-- @extends('layout')
-@section('content')
-                <div class="container-fluid">
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Tambahkan Data</h1>
-                    <form method="POST" action="{{ route('rak.store') }}">
-                        @csrf
-                        <!-- Tambahkan input fields sesuai dengan kebutuhan Anda -->
-                        <input type="text" name="rak" placeholder="Rak">
-                        <input type="number" name="no_rak" min="1" max="100" placeholder="No Rak">
-                        <!-- Tambahkan field lainnya sesuai dengan model Obat Anda -->
-
-                        <button type="submit">Simpan</button>
-                    </form>
-                </div>
-                <!-- /.container-fluid -->
-@endsection --}}
-
 @extends('layout')
 @section('content')
-                <div class="container-fluid">
+
+                    @if($errors->any())
+                        @foreach($errors->all() as $error)
+                            <script>
+                                const Toast = Swal.mixin({
+                                    toast: true,
+                                    position: "top-end",
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                });
+                                Toast.fire({
+                                    icon: "error",
+                                    title: "{{ $error }}"
+                                });
+                            </script>
+                        @endforeach
+                        @endif
+                    <div class="container-fluid">
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Tambah Data</h1>

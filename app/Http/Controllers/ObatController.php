@@ -48,18 +48,15 @@ class ObatController extends Controller
         'dosis' => 'required|string|max:255',
         'harga_beli' => 'required|integer',
         'harga_jual' => 'required|integer',
-        'rak_id' => 'required|numeric',
+        'rak_id' => 'required|unique:obats,rak_id',
     ]);
 
     if ($validator->fails()) {
-        $errors = $validator->messages();
-        // Anda dapat menggunakan $errors untuk melihat pesan kesalahan per validasi
-        // Contoh: $errors->first('id') untuk melihat pesan kesalahan pada 'id'
-        foreach ($errors->all() as $error) {
-            echo $error;
-        }
+        // Redirect back to the form with validation errors and old input
+        return redirect('obat/create')
+            ->withErrors($validator)
+            ->withInput();
     }
-
 
     // Proses hanya akan dilanjutkan jika validasi berhasil
     else
@@ -82,13 +79,10 @@ class ObatController extends Controller
 
         $obat->save();
 
-        return redirect()->route('obat.index')->with('success', 'Data obat berhasil disimpan.');
+        return redirect()->route('obat.index')->with('success', 'Data berhasil disimpan.');
     }
     }
-
-
-
-
+    
     /**
      * Display the specified resource.
      */
@@ -127,9 +121,12 @@ class ObatController extends Controller
     public function destroy($id)
     {
         $obat = obat::findOrFail($id);
+        if (!$obat) {
+            return redirect()->route('obat.index')->with('error', 'Data tidak ditemukan.');
+        }
         $obat->delete();
 
-        return redirect()->route('obat.index');
+        return redirect()->route('obat.index')->with('success', 'Data obat berhasil dihapus.');
     }
 
 }
