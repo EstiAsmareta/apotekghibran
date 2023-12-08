@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pembelian;
-use App\Models\Pengeluaran;
-use App\Models\Penjualan;
+
 use App\Models\transaksi;
+use App\Models\transaksiDetail;
 use Illuminate\Http\Request;
 use PDF;
 
@@ -37,8 +36,9 @@ class LaporanController extends Controller
 
             $total_penjualan = transaksi::where('created_at', 'LIKE', "%$tanggal%")->sum('total_harga');
             $total_item = transaksi::where('created_at', 'LIKE', "%$tanggal%")->sum('total_item');
-            $total_transaksi = transaksi::where('created_at', 'LIKE', "%$tanggal%")->sum('id');
-
+            $total_transaksi = TransaksiDetail::whereHas('transaksi', function ($query) use ($tanggal) {
+                $query->whereDate('created_at', $tanggal);
+            })->count();
 
             $row = array();
             $row['DT_RowIndex'] = $no++;
@@ -73,9 +73,14 @@ class LaporanController extends Controller
     public function exportPDF($awal, $akhir)
     {
         $data = $this->getData($awal, $akhir);
-        $pdf  = PDF::loadView('laporan.pdf', compact('awal', 'akhir', 'data'));
-        $pdf->setPaper('a4', 'potrait');
 
-        return $pdf->stream('Laporan-pendapatan-'. date('Y-m-d-his') .'.pdf');
+        // Render view Blade dan tampilkan datanya
+        return view('laporan.pdf', compact('awal', 'akhir', 'data'));
+
+        // Jika Anda masih ingin melanjutkan untuk menghasilkan dan men-download PDF, gunakan kode di bawah ini:
+        // $pdf = PDF::loadView('laporan.pdf', compact('awal', 'akhir', 'data'));
+        // $pdf->setPaper('a4', 'portrait');
+        // return $pdf->stream('Laporan-pendapatan-'. date('Y-m-d-his') .'.pdf');
     }
+
 }

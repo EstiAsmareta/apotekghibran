@@ -18,24 +18,17 @@
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
-
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('obat.index')}}">
-            <i class="fas  fa-fw fa-regular fa-capsules"></i>
-            <span>Manajemen Obat</span></a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('transaksi.baru')}}">
-            <i class="fas fa-shopping-cart"></i>
-            <span>Transaksi</span></a>
-    </li>
-
     @if(auth()->user()->can('create role'))
     <li class="nav-item">
         <a class="nav-link" href="{{ route('manajemen_user.index')}}">
             <i class="fas fa-solid fa-users"></i>
             <span>Manajemen User</span></a>
+    </li>
+	
+	 <li class="nav-item">
+        <a class="nav-link" href="{{ route('obat.index')}}">
+            <i class="fas  fa-fw fa-regular fa-capsules"></i>
+            <span>Manajemen Obat</span></a>
     </li>
 
     <li class="nav-item">
@@ -43,14 +36,24 @@
             <i class="fas fa-solid fa-inbox"></i>
             <span>Manajemen Rak</span></a>
     </li>
-
+	@else
+		<li class="nav-item">
+        <a class="nav-link" href="{{ route('transaksi.baru')}}">
+            <i class="fas fa-shopping-cart"></i>
+            <span>Transaksi</span></a>
+    </li>
     @endif
 
+    @if(auth()->user()->can('create role'))
     <li class="nav-item">
         <a class="nav-link" href="{{ route('laporan.index')}}">
             <i class="far fa-file-alt"></i>
             <span>Laporan</span></a>
     </li>
+
+    @endif
+
+
 
 
 

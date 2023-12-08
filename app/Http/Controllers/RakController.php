@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\Validator;
 class RakController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('can:read role');
-        //tidak bisa masuk ke create
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('can:read role');
+    //     //tidak bisa masuk ke create
+    // }
     /**
      * Display a listing of the resource.
      */

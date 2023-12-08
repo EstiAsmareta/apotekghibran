@@ -1,18 +1,16 @@
-<section class="space-y-6">
-    <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            {{ __('Delete Account') }}
-        </h2>
+<section class="bg-white dark:bg-gray-800 p-6 rounded-lg">
+    <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+        {{ __('Delete Account') }}
+    </h2>
 
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}
-        </p>
-    </header>
+    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+        {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}
+    </p>
 
-    <x-danger-button
-        x-data=""
-        x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
-    >{{ __('Delete Account') }}</x-danger-button>
+<button class="btn btn-danger" data-toggle="modal" data-target="#confirmUserDeletionModal">
+    {{ __('Delete Account') }}
+</button>
+
 
     <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
         <form method="post" action="{{ route('profile.destroy') }}" class="p-6">
@@ -28,13 +26,12 @@
             </p>
 
             <div class="mt-6">
-                <x-input-label for="password" value="{{ __('Password') }}" class="sr-only" />
-
-                <x-text-input
+                <label for="password" class="sr-only">Password</label>
+                <input
                     id="password"
                     name="password"
                     type="password"
-                    class="mt-1 block w-3/4"
+                    class="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300"
                     placeholder="{{ __('Password') }}"
                 />
 

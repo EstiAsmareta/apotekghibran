@@ -18,4 +18,9 @@ class transaksiDetail extends Model
     {
         return $this->belongsTo(obat::class);
     }
+
+    public function transaksi(): BelongsTo
+    {
+        return $this->belongsTo(transaksi::class);
+    }
 }

@@ -11,18 +11,30 @@
 <link href="path/to/bootstrap-icons.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
+
 <!-- Custom fonts for this template-->
 <link href="{{ asset ('assets/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
 <!-- Custom styles for this template-->
 <link href="{{ asset ('assets/css/sb-admin-2.min.css')}}" rel="stylesheet">
+{{-- datepicker bootsrtap --}}
+<link rel="stylesheet" href="{{ asset ('assets/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
 
 <link rel="stylesheet" href="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-{{-- <script src="sweetalert2.min.js"></script>
-<link rel="stylesheet" href="sweetalert2.min.css"> --}}
+    <!-- Sertakan jQuery -->
+ <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- Sertakan CSS jQuery UI -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!-- Sertakan JS jQuery UI -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+  {{-- allertstyle --}}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 @stack('css')

@@ -12,6 +12,12 @@
         <input type="text" name="email" id="email" class="form-control" value="{{ $user->email }}">
     </div>
 
+    <div class="form-group">
+        <label for="password">password</label>
+        <input type="password" name="password" id="password" placeholder="Password" class="form-control">
+
+    </div>
+
     <div class="modal-footer">
         <button class="btn btn-primary" type="submit">Save changes</button>
     </div>
